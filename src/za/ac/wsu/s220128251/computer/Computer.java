@@ -24,10 +24,10 @@ public class Computer extends JFrame {
     private JButton btnExit = new JButton("Exit App");
     private ArrayList<String> computerIpAddresses = new ArrayList<>();
     private ArrayList<Double> computerValues = new ArrayList<>();
-    private JPanel pnlDetails = new JPanel(new GridLayout(5,2,10,5));
+    private JPanel pnlDetails = new JPanel(new GridLayout(5, 2, 10, 5));
     private JPanel pnlAppHeader = new JPanel();
 
-    public Computer(){
+    public Computer() {
         super("Lap App");
         setLayout(new BorderLayout());
         setDefaultCloseOperation(3);
@@ -40,44 +40,51 @@ public class Computer extends JFrame {
         pnlDetails.add(btnShowComputer);
         pnlDetails.add(btnClear);
         pnlDetails.add(btnExit);
-        add(pnlAppHeader,BorderLayout.NORTH);
-        add(pnlDetails,BorderLayout.SOUTH);
+        add(pnlAppHeader, BorderLayout.NORTH);
+        add(pnlDetails, BorderLayout.SOUTH);
 
         btnAdd.addActionListener(
                 e -> {
-                        try {
-                            String ipAddress = txtComputerIP.getText();
-                            double value = Double.parseDouble(txtValue.getText());
-                            ProvideIp ip = new ProvideIp(ipAddress);
-                            IsComputerAdded ca = new IsComputerAdded(computerIpAddresses,ipAddress);
-                            computerIpAddresses.add(txtComputerIP.getText());
-                            computerValues.add(Double.valueOf(txtValue.getText()));
-                            JOptionPane.showMessageDialog(null, "Computer Inserted", "INFO", 1);
+                    try {
+                        String ipAddress = txtComputerIP.getText();
+                        double value = Double.parseDouble(txtValue.getText());
+                        ProvideIp ip = new ProvideIp(ipAddress);
+                        IsComputerAdded ca = new IsComputerAdded(computerIpAddresses, ipAddress);
+                        computerIpAddresses.add(txtComputerIP.getText());
+                        computerValues.add(Double.valueOf(txtValue.getText()));
+                        JOptionPane.showMessageDialog(null, "Computer Inserted", "INFO", 1);
 
-                        } catch (NumberFormatException nfe) {
-                            JOptionPane.showMessageDialog(null, "Provide Computer Value");
-                        }catch (IndexOutOfBoundsException e2){
-                            JOptionPane.showMessageDialog(null, "Not yet added Computer");
-                        } catch (ExistException | IpAddressEmpty ex) {
-                            JOptionPane.showMessageDialog(null, ex.getMessage());
-                        }
-                }
-        );
+                    } catch (NumberFormatException nfe) {
+                        JOptionPane.showMessageDialog(null, "Provide Computer Value");
+                    } catch (IndexOutOfBoundsException e2) {
+                        JOptionPane.showMessageDialog(null, "Not yet added Computer");
+                    } catch (ExistException | IpAddressEmpty ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                    }
+                });
         btnShowComputer.addActionListener(
                 e -> {
                     showComputers(computerIpAddresses, computerValues);
-                }
-        );
+                });
+        btnClear.addActionListener(
+                e -> {
+                    txtComputerIP.setText("");
+                    txtValue.setText("");
+                });
+        btnExit.addActionListener(
+                e -> {
+                    System.exit(0);
+                });
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
-    public void showComputers(ArrayList<String> computersIp,ArrayList<Double> computersValue) {
+    public void showComputers(ArrayList<String> computersIp, ArrayList<Double> computersValue) {
 
-        JPanel pnlComputers = new JPanel(new GridLayout(computersIp.size(),2,10,5));
+        JPanel pnlComputers = new JPanel(new GridLayout(computersIp.size(), 2, 10, 5));
 
-        try{
+        try {
             IsEmptyList empty = new IsEmptyList(computersIp, computerValues);
             for (int i = 0; i < computersIp.size(); i++) {
                 pnlComputers.add(new JLabel(computersIp.get(i)));
@@ -89,6 +96,5 @@ public class Computer extends JFrame {
         }
 
     }
-
 
 }
